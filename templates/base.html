@@ -85,7 +85,13 @@
                             </p>
                         </a>
                     <p class="post-meta">Posted by
-                        <a href="#">{{ eachpost.username }}</a>
+                        <a href="#">
+                          {% if eachpost.author %}
+                              {{ eachpost.author.username }}
+                          {% else %}
+                              <span style="color:blue">Anonymous user</span>
+                          {% endif %}
+                        </a>
                     </p>
                     </div>
                 </div>

@@ -4,10 +4,13 @@ from django.http import HttpResponse
 from .models import Destination
 from django.contrib import messages
 from django.contrib.auth.models import User, auth
+from django.contrib.auth.decorators import login_required
 
 # Create your views here.
 def home(request):
     dist = Destination.objects.all()
+    for data in dist:
+        print(data.author)
     return render(request , 'base.html' , {'data' : dist })
 
 def login(request):
@@ -68,18 +71,26 @@ def signuppost(request):
         return redirect("/signup")
      
     
-
 def addpost(request):
     return render(request , 'addpost.html')
 
 
 def add(request):
+    isanonymous = False
+    if request.POST.get('isanonymous' , None):
+        print("isanonymous =-==> truesfef")
+        isanonymous = True
+
     imgurl = request.POST['imgurl']
-    username =  request.user.username
     desc =  request.POST['desc']
     title =  request.POST['title']
-    
-    data1 = Destination(imgurl = imgurl , username = username ,  desc = desc, title = title)
-    data1.save()
+    if request.user:
+        if isanonymous:
+            data1 = Destination(imgurl = imgurl ,  desc = desc, title = title)
+        else:
+            data1 = Destination(imgurl = imgurl , author=request.user, desc = desc, title = title)
+    else:
+        data1 = Destination(imgurl = imgurl, desc = desc, title = title)
 
+    data1.save()     
     return redirect("/")
