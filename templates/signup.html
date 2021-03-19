@@ -10,8 +10,8 @@
     <link type="text/css" href="{% static 'css/index.css' %}" rel="stylesheet" crossorigin="anonymous">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
 </head>
-<body> 
-
+<body>
+ 
     <nav style="background : #272727de" class="navbar navbar-expand-lg navbar-light fixed-top" id="mainNav">
         <div class="container">
           <a class="navbar-brand" href="/">Get Started</a>
@@ -35,32 +35,49 @@
         </div>
     </nav>
 
-    <div class="container">
-        <form class="our-add-post-form" method="POST" action="/add">
-             {% csrf_token %}
-             <h1 id="new-post-button">New Post</h1> 
-             <div class="form-group">
-                <label for="exampleInputPassword1">Username</label>
-                <input type="text" name="username" class="form-control" id="exampleInputPassword1" placeholder="Enter Username">
-              </div>
-            <div class="form-group">
-                <label for="exampleInputPassword3">Title</label>
-                <input type="text" name="title" class="form-control" id="exampleInputPassword3" placeholder="Enter Title">
+
+
+        <div class="form-panel two">
+            <div class="form-header">
+            <h1>Register Account</h1>
             </div>
-            <div class="form-group">
-                <label for="exampleInputEmail1">Image URL</label>
-                <input type="url" name="imgurl" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter Image URL">
-              </div>
-            <div class="form-group">
-                <label for="exampleFormControlTextarea1">Description</label>
-                <textarea name="desc" class="form-control" id="exampleFormControlTextarea1" rows="5" placeholder="Write Something about the post"></textarea>
-              </div>
-            <button type="submit" class="btn btn-primary">Add Post</button>
-          </form>
-    </div>
-   
+            <div class="form-content">
+            <form method="POST" action="/signuppost">
+                {% csrf_token %}
+                <div class="form-group">
+                    <label for="username">Username</label>
+                    {% with iserror = false %}
+                        {% for message in messages %}
+                            {% if message=="Username Already Exist" %}
+                                <input class="form-control" type="text" id="username" name="username" required="required"/>
+                            {% endif %}
+                        {% endfor %}
+                    {% endwith %}    
+                    <div class="invalid-feedback">
+                        Please provide a valid city.
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="email">Email Address</label>
+                    <input type="email" id="email" name="email" required="required"/>
+                </div>
+                <div class="form-group">
+                    <label for="password">Password</label>
+                    <input type="password" id="password" name="password" required="required"/>
+                </div>
+                <div class="form-group">
+                    <label for="cpassword">Confirm Password</label>
+                    <input type="password" id="cpassword" name="cpassword" required="required"/>
+                </div>
+                <div class="form-group">
+                   <button class="btn btn-md btn-primary" type="submit">Register</button>
+                </div>
+                <a href="/login">Already have an account? Login</a>
+            </form>
+            </div>
+        </div>
 
-
+    
 
 
     <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
@@ -69,4 +86,3 @@
     <script src="{% static 'js/index.js' %}"></script>
 </body>
 </html>
-
