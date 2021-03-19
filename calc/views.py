@@ -5,7 +5,7 @@ from .models import Destination
 # Create your views here.
 def home(request):
     dist = Destination.objects.all()
-    return render(request , 'home.html' , {'data' : dist })
+    return render(request , 'base.html' , {'data' : dist })
 
 
 def addpost(request):
