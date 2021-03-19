@@ -24,12 +24,21 @@
               <li class="nav-item">
                 <a class="nav-link" href="/">Home</a>
               </li>
-              <li class="nav-item">
-                <a class="nav-link" href="/login">Login</a>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link" href="/signup">Sign Up</a>
-              </li>
+              {% if user.is_authenticated %}
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">{{ user.username }}</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/logout">Logout</a>
+                    </li>
+              {% else %}
+                    <li class="nav-item">
+                        <a class="nav-link" href="/login">Login</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/signup">Sign Up</a>
+                    </li>
+              {% endif %}
             </ul>
           </div>
         </div>
@@ -42,20 +51,19 @@
             <h1>Register Account</h1>
             </div>
             <div class="form-content">
+            {% for message in messages %}
+                <div class="alert alert-warning alert-dismissible fade show" role="alert">
+                    {{ message }}
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+            {% endfor %}
             <form method="POST" action="/signuppost">
                 {% csrf_token %}
                 <div class="form-group">
                     <label for="username">Username</label>
-                    {% with iserror = false %}
-                        {% for message in messages %}
-                            {% if message=="Username Already Exist" %}
-                                <input class="form-control" type="text" id="username" name="username" required="required"/>
-                            {% endif %}
-                        {% endfor %}
-                    {% endwith %}    
-                    <div class="invalid-feedback">
-                        Please provide a valid city.
-                    </div>
+                        <input class="form-control" type="text" id="username" name="username" required="required"/>
                 </div>
                 <div class="form-group">
                     <label for="email">Email Address</label>

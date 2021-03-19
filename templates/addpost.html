@@ -24,12 +24,21 @@
               <li class="nav-item">
                 <a class="nav-link" href="/">Home</a>
               </li>
-              <li class="nav-item">
-                <a class="nav-link" href="/login">Login</a>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link" href="/signup">Sign Up</a>
-              </li>
+              {% if user.is_authenticated %}
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">{{ user.username }}</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/logout">Logout</a>
+                    </li>
+              {% else %}
+                    <li class="nav-item">
+                        <a class="nav-link" href="/login">Login</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/signup">Sign Up</a>
+                    </li>
+              {% endif %}
             </ul>
           </div>
         </div>
@@ -38,11 +47,7 @@
     <div class="container">
         <form class="our-add-post-form" method="POST" action="/add">
              {% csrf_token %}
-             <h1 id="new-post-button">New Post</h1> 
-             <div class="form-group">
-                <label for="exampleInputPassword1">Username</label>
-                <input type="text" name="username" class="form-control" id="exampleInputPassword1" placeholder="Enter Username">
-              </div>
+            <h1 id="new-post-button">New Post</h1> 
             <div class="form-group">
                 <label for="exampleInputPassword3">Title</label>
                 <input type="text" name="title" class="form-control" id="exampleInputPassword3" placeholder="Enter Title">

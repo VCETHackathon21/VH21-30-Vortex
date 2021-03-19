@@ -13,6 +13,12 @@ def home(request):
 def login(request):
     return render(request , 'login.html')
 
+
+def logout(request):
+    auth.logout(request)
+    return redirect("/")
+
+
 def signup(request):
     return render(request , 'signup.html')
 
@@ -21,7 +27,14 @@ def loginpost(request):
     username = request.POST['username']
     password = request.POST['password']
     # Check and login 
-    return redirect("/")
+    user = auth.authenticate(username=username, password=password)
+    if user is not None:
+        auth.login(request, user)
+        print("User is logged in")
+        return redirect("/")
+    else:
+        messages.info(request , "Something went wrong")
+        return redirect("/login")
 
 
 def signuppost(request):
@@ -46,11 +59,12 @@ def signuppost(request):
         else:
             user = User.objects.create_user(first_name=firstname , last_name=lastname, email=email, password=password, username=username)
             user.save()
+            auth.login(request , user)
             print("User created" , user)
             return redirect("/")
        
     else:
-        messages.info(request , "Passwords does not match")
+        messages.info(request , "Passwords are not matching..")
         return redirect("/signup")
      
     
@@ -61,7 +75,7 @@ def addpost(request):
 
 def add(request):
     imgurl = request.POST['imgurl']
-    username =  request.POST['username']
+    username =  request.user.username
     desc =  request.POST['desc']
     title =  request.POST['title']
     
