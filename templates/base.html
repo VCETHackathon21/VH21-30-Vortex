@@ -46,7 +46,7 @@
       </nav>
     
       
-      <header class="masthead" style="background-image: url("{% static 'img/workdesk2.jpg' %}")">
+      <header class="masthead" style="background-image: url('{% static "img/workdesk2.jpg" %}')"" >
         <div class="overlay"></div>
         <div class="container">
           <div class="row">
@@ -64,19 +64,19 @@
           </div>
         </div>
       </header>
-    
-    
+  
       <div class="container">
         <div class="row">
           <div class="col-10 mx-auto">
-            {% for eachpost in data %}
+            {% for eachpost in data reversed  %}
+              {% with counter1=forloop.counter %}
               <div class="row my-4">
                 <div class="col-md-5 d-flex justify-content-center align-items-center">
                     <img style="width: 100%; height: 350px; object-fit: cover" src={{ eachpost.imgurl }}>
                 </div>
                 <div class="col-md-7">
                     <div class="post-preview">
-                        <a href="/post/:id">
+                        <a href="#"></a>
                             <h3 class="post-title">
                             {{ eachpost.title }}
                             </h3>
@@ -84,19 +84,28 @@
                             {{ eachpost.desc }}
                             </p>
                         </a>
-                    <p class="post-meta">Posted by
-                        <a href="#">
-                          {% if eachpost.author %}
-                              {{ eachpost.author.username }}
-                          {% else %}
-                              <span style="color:blue">Anonymous user</span>
-                          {% endif %}
-                        </a>
-                    </p>
+                        <p style="margin: 0">
+                          {% for eachtag in datatags reversed %}
+                            {% if forloop.counter == counter1 %}
+                                {% for datasec in eachtag %}
+                                  <span style="font-weight: 600; color: blue">{{ datasec.name }}</span> 
+                                {% endfor %}
+                            {% endif %}
+                          {% endfor  %}
+                        </p>
+                        <p class="post-meta">Posted by
+                            <a href="#">
+                              {% if eachpost.author %}
+                                  {{ eachpost.author.username }}
+                              {% else %}
+                                  <span style="color:blue">Anonymous user</span>
+                              {% endif %}
+                            </a>
+                        </p>
                     </div>
                 </div>
               </div>
-                
+              {% endwith %}
             {% endfor %}    
             <hr>
           </div>

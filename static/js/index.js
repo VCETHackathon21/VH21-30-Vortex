@@ -40,3 +40,29 @@
   
   })(jQuery); // End of use strict
   
+
+  
+var eachaddbutton = document.querySelectorAll(".add-button-of-tag");
+var targetfield = document.querySelector("#tagsection");
+var alltagsarr = [];
+
+eachaddbutton.forEach(function(eachbutton){
+    eachbutton.addEventListener("click" , function(){
+      var newtag = this.value;
+      var alltags = targetfield.value;
+      let datasec = alltagsarr.filter(data => data == newtag);
+      if(datasec.length == 0){
+          alltagsarr.push(newtag); 
+      }
+
+      for(var i = 0 ; i < alltagsarr.length; i++){
+        if(i == 0){
+          alltags = "#" + alltagsarr[i];
+          continue;
+        }
+        alltags = alltags + " #" + alltagsarr[i];
+      }
+      targetfield.value = alltags;
+    });
+})
+

@@ -55,7 +55,15 @@
             <div class="form-group">
                 <label for="exampleInputEmail1">Image URL</label>
                 <input type="url" name="imgurl" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter Image URL">
-              </div>
+            </div>
+            <div class="form-group">
+                <label for="tagsection">Add Tags</label>
+                <input type="text" name="tags" class="form-control" id="tagsection" aria-describedby="emailHelp" placeholder="Enter Image URL" value="">
+            </div>
+            <!-- Button trigger modal -->
+            <button type="button" class="btn btn-primary mb-4" data-toggle="modal" data-target="#exampleModal">
+              Add New Tag
+            </button>
             <div class="form-group">
                 <label for="exampleFormControlTextarea1">Description</label>
                 <textarea name="desc" class="form-control" id="exampleFormControlTextarea1" rows="5" placeholder="Write Something about the post"></textarea>
@@ -73,10 +81,32 @@
             <button type="submit" class="btn btn-primary">Add Post</button>
           </form>
     </div>
-   
 
-
-
+     <!-- Modal -->
+     <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLabel">All Tags</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            <div class="row">
+              {% for eachdata in data %}
+                <div class="col-12">
+                  <div style="padding : 5px 10px;" class="d-flex justify-content-between our-each-tags">
+                      <p>#{{ eachdata.title }}</p>
+                      <button value={{ eachdata.title }} class="btn btn-sm btn-primary add-button-of-tag">Add</button>
+                  </div>
+                </div>
+              {% endfor %}
+            </div> 
+          </div>
+        </div>
+      </div>
+    </div>
 
     <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>

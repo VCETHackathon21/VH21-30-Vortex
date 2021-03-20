@@ -656,10 +656,6 @@ body {
 
 /* ========== */
 
-
-
-
-
   
 .our-add-post-form {
     margin-top: 135px !important; 
@@ -678,4 +674,8 @@ label{
   color : blue; 
   font-weight : 500;
   font-size: 16px;
+}
+
+.our-each-tags{
+  padding : 10px;
 }

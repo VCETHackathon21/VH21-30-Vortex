@@ -10,6 +10,6 @@ class Destination(models.Model):
     author = models.ForeignKey(User , blank=True, null=True, on_delete=models.CASCADE)
 
 
-class Tags(models.Model):
+class Tag(models.Model):
     name = models.CharField(max_length=100)
     isrelated = models.ForeignKey(Destination, on_delete=models.CASCADE)

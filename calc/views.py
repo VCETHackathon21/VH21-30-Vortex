@@ -1,26 +1,27 @@
 from django.http.response import HttpResponse
 from django.shortcuts import render, redirect
 from django.http import HttpResponse
-from .models import Destination
+from .models import Destination, Tag
 from django.contrib import messages
 from django.contrib.auth.models import User, auth
 from django.contrib.auth.decorators import login_required
 
 # Create your views here.
 def home(request):
+    datatags = []
     dist = Destination.objects.all()
     for data in dist:
-        print(data.author)
-    return render(request , 'base.html' , {'data' : dist })
+        alltags = Tag.objects.filter(isrelated=data.id)
+        datatags.append(alltags)
+
+    return render(request , 'base.html' , {'data' : dist , 'datatags' : datatags  })
 
 def login(request):
     return render(request , 'login.html')
 
-
 def logout(request):
     auth.logout(request)
     return redirect("/")
-
 
 def signup(request):
     return render(request , 'signup.html')
@@ -72,7 +73,8 @@ def signuppost(request):
      
     
 def addpost(request):
-    return render(request , 'addpost.html')
+    dist = Destination.objects.all()
+    return render(request , 'addpost.html' , {'data' : dist })
 
 
 def add(request):
@@ -84,6 +86,9 @@ def add(request):
     imgurl = request.POST['imgurl']
     desc =  request.POST['desc']
     title =  request.POST['title']
+    alltags = request.POST['tags']
+    alltagslst = alltags.split()
+
     if request.user:
         if isanonymous:
             data1 = Destination(imgurl = imgurl ,  desc = desc, title = title)
@@ -92,5 +97,9 @@ def add(request):
     else:
         data1 = Destination(imgurl = imgurl, desc = desc, title = title)
 
-    data1.save()     
+    data1.save()
+    for data in alltagslst:
+        newtag = Tag(name=data, isrelated=data1)
+        newtag.save()
+   
     return redirect("/")
